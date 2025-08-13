@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TirePro — Шины с доставкой и установкой</title>
+  <meta name="description" content="Современный лендинг магазина шин: подбор по размеру и авто, быстрая доставка и установка, акции и отзывы." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            brand: {
+              50: '#f3f6ff', 100: '#e7edff', 200: '#cddbff', 300: '#a7c0ff',
+              400: '#7a9cff', 500: '#4c76ff', 600: '#2d55f3', 700: '#1f3dcc',
+              800: '#1b34a6', 900: '#182e87', 950: '#0f1d56'
+            },
+            accent: {
+              500: '#ffd028', 600: '#f3c31b', 700: '#e1b10e'
+            }
+          },
+          boxShadow: {
+            soft: '0 6px 24px rgba(0,0,0,.08)'
+          }
+        }
+      },
+      darkMode: 'class'
+    }
+  </script>
+  <style>
+    /* Smooth reveal */
+    .reveal { transform: translateY(12px); opacity: 0; transition: all .6s ease; }
+    .reveal.in { transform: none; opacity: 1; }
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 antialiased">
+  <!-- Top bar -->
+  <div class="hidden md:block bg-neutral-900 text-neutral-100 dark:bg-neutral-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 text-sm flex items-center justify-between">
+      <p class="opacity-90">Доставка по Грузии за 24–72 часа • Бесплатный самовывоз</p>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 opacity-90">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3 6 12H2"/></svg>
+          <span>Профессиональная установка</span>
+        </div>
+        <div class="flex items-center gap-2 opacity-90">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21V7a2 2 0 0 0-2-2h-4V3H6v2H4a2 2 0 0 0-2 2v12"/><path d="M2 21h20"/><path d="M7 10h7"/></svg>
+          <span>Гарантия 12 месяцев</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-white/70 bg-white/90 dark:bg-neutral-950/80 border-b border-neutral-200/60 dark:border-neutral-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="#" class="inline-flex items-center gap-2 font-extrabold text-lg">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-600 text-white shadow-soft">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 12a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0Zm-5.7 0a2.8 2.8 0 1 1-5.6 0 2.8 2.8 0 0 1 5.6 0Z"/></svg>
+        </span>
+        <span>TirePro</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-[15px]">
+        <a href="#catalog" class="hover:text-brand-700 dark:hover:text-brand-300">Каталог</a>
+        <a href="#search" class="hover:text-brand-700 dark:hover:text-brand-300">Подбор шин</a>
+        <a href="#benefits" class="hover:text-brand-700 dark:hover:text-brand-300">Преимущества</a>
+        <a href="#reviews" class="hover:text-brand-700 dark:hover:text-brand-300">Отзывы</a>
+        <a href="#faq" class="hover:text-brand-700 dark:hover:text-brand-300">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <button id="themeToggle" class="p-2 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" aria-label="Переключить тему">
+          <span class="sr-only">Тема</span>
+          <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg id="iconMoon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92V19a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2 4.18 2 2 0 0 1 4 2h2.09a1 1 0 0 1 1 .75 12.66 12.66 0 0 0 .7 2.11 1 1 0 0 1-.23 1.11L6.62 7.91a16 16 0 0 0 6 6l1.94-1a1 1 0 0 1 1.09.21 12.66 12.66 0 0 0 2.11.7 1 1 0 0 1 .75 1V19z"/></svg>
+          Заказать звонок
+        </a>
+        <button id="cartBtn" class="relative inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-13z"/><path d="M6 6l-2-2H2"/><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+          <span class="hidden sm:inline">Корзина</span>
+          <span id="cartCount" class="absolute -top-2 -right-2 text-xs bg-accent-500 text-neutral-900 rounded-full px-1.5 py-0.5">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+      <img src="https://images.unsplash.com/photo-1603503361163-7696e049d58d?q=80&w=1600&auto=format&fit=crop" alt="Шины и колесо" class="w-full h-full object-cover opacity-20 dark:opacity-15">
+      <div class="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white dark:from-neutral-950 dark:via-neutral-950/70 dark:to-neutral-950"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-24">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="reveal">
+          <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">Шины с доставкой за <span class="text-brand-700 dark:text-brand-400">24 часа</span> и установкой в день заказа</h1>
+          <p class="mt-4 text-lg text-neutral-700 dark:text-neutral-300 max-w-xl">Подбор по размеру или по авто за 30 секунд. Сертифицированные бренды, честные цены, гарантия 12 месяцев.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#search" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">
+              Подобрать шины
+            </a>
+            <a href="#catalog" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900">
+              Смотреть каталог
+            </a>
+          </div>
+          <div class="mt-6 flex items-center gap-6 text-sm text-neutral-600 dark:text-neutral-400">
+            <div class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="m20 6-11 9-5-5"/></svg>5000+ довольных клиентов</div>
+            <div class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Доставка 24–72 часа</div>
+          </div>
+        </div>
+        <div class="reveal" id="search">
+          <div class="bg-white/90 dark:bg-neutral-900/80 backdrop-blur rounded-3xl border border-neutral-200 dark:border-neutral-800 p-4 sm:p-6 shadow-soft">
+            <div class="flex gap-2 p-1 rounded-2xl bg-neutral-100 dark:bg-neutral-800">
+              <button id="tabSize" class="flex-1 py-2 rounded-xl text-sm font-medium bg-white dark:bg-neutral-900 shadow">По размеру</button>
+              <button id="tabCar" class="flex-1 py-2 rounded-xl text-sm font-medium opacity-80">По авто</button>
+            </div>
+
+            <!-- Size form -->
+            <form id="formSize" class="mt-4 grid sm:grid-cols-2 gap-3">
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Ширина</span>
+                <select id="width" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option>195</option><option>205</option><option selected>215</option><option>225</option><option>235</option><option>245</option><option>255</option><option>265</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Профиль</span>
+                <select id="profile" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option>40</option><option>45</option><option selected>50</option><option>55</option><option>60</option><option>65</option><option>70</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Диаметр</span>
+                <select id="diameter" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option>R15</option><option selected>R16</option><option>R17</option><option>R18</option><option>R19</option><option>R20</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Сезон</span>
+                <select id="season" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option value="summer" selected>Летние</option>
+                  <option value="winter">Зимние</option>
+                  <option value="all">Всесезон</option>
+                </select>
+              </label>
+              <label class="sm:col-span-2 block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Количество</span>
+                <input id="qty" type="number" min="1" value="4" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+              </label>
+              <button type="button" id="btnFind" class="sm:col-span-2 mt-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">
+                Найти шины
+              </button>
+            </form>
+
+            <!-- Car form -->
+            <form id="formCar" class="mt-4 grid sm:grid-cols-2 gap-3 hidden">
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Марка</span>
+                <select id="carBrand" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option selected>Mercedes-Benz</option><option>BMW</option><option>Audi</option><option>Toyota</option><option>Kia</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Модель</span>
+                <select id="carModel" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option selected>C-Class W205</option><option>E-Class W213</option><option>GLC</option><option>GLE</option>
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-sm text-neutral-600 dark:text-neutral-300">Год</span>
+                <select id="carYear" class="mt-1 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                  <option>2014</option><option selected>2018</option><option>2020</option><option>2022</option><option>2024</option>
+                </select>
+              </label>
+              <div class="sm:col-span-2">
+                <button type="button" id="btnFindByCar" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">Подобрать по авто</button>
+              </div>
+            </form>
+
+            <p class="mt-3 text-xs text-neutral-500 dark:text-neutral-400">Установку можно оформить сразу после заказа. Работаем официально, выдаём чек и гарантию.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section id="benefits" class="py-14 sm:py-18">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-4">
+        <div class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <div class="w-10 h-10 rounded-xl bg-accent-500/70 flex items-center justify-center mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 17l-2 2 2 2"/><path d="M14 17l2 2-2 2"/><path d="M8 17V9a4 4 0 1 1 8 0v8"/></svg>
+          </div>
+          <h3 class="font-semibold">Гарантия и возврат</h3>
+          <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">12 месяцев гарантии. Обмен/возврат — 14 дней без лишних вопросов.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <div class="w-10 h-10 rounded-xl bg-accent-500/70 flex items-center justify-center mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h18"/><path d="M5 6h14a2 2 0 0 1 2 2v6a8 8 0 0 1-8 8H9a8 8 0 0 1-8-8V8a2 2 0 0 1 2-2Z"/></svg>
+          </div>
+          <h3 class="font-semibold">Оплата как удобно</h3>
+          <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Наличные, карты, перевод. Безопасная онлайн-оплата.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <div class="w-10 h-10 rounded-xl bg-accent-500/70 flex items-center justify-center mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg>
+          </div>
+          <h3 class="font-semibold">Широкий выбор</h3>
+          <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">2000+ позиций на складе: летние, зимние, всесезонные, RunFlat.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <div class="w-10 h-10 rounded-xl bg-accent-500/70 flex items-center justify-center mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-neutral-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v13H3z"/><path d="M8 21h8"/><path d="M12 16v5"/></svg>
+          </div>
+          <h3 class="font-semibold">Монтаж и хранение</h3>
+          <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Сезонный шиномонтаж и хранение шин — по выгодным тарифам.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular sizes -->
+  <section class="py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-xl font-bold mb-4">Популярные размеры</h2>
+      <div class="flex flex-wrap gap-2">
+        <a class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" href="#catalog?size=205/55R16">205/55 R16</a>
+        <a class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" href="#catalog?size=215/55R17">215/55 R17</a>
+        <a class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" href="#catalog?size=225/45R17">225/45 R17</a>
+        <a class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" href="#catalog?size=235/45R18">235/45 R18</a>
+        <a class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" href="#catalog?size=255/40R19">255/40 R19</a>
+        <a class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900" href="#catalog?size=265/50R20">265/50 R20</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog / Hits -->
+  <section id="catalog" class="py-14 sm:py-18 bg-white dark:bg-neutral-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold">Хиты продаж</h2>
+        <a href="#" class="text-sm hover:text-brand-600">Смотреть все</a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Product Card -->
+        <article class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
+          <div class="aspect-square rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <img src="https://images.unsplash.com/photo-1589395595558-c55b6d1ea6a6?q=80&w=800&auto=format&fit=crop" alt="Michelin Pilot Sport 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <h3 class="mt-3 font-semibold">Michelin Pilot Sport 4</h3>
+          <p class="text-sm text-neutral-500">225/45 R17 • Летние</p>
+          <div class="mt-3 flex items-center justify-between">
+            <div>
+              <div class="text-lg font-bold">₾ 430</div>
+              <div class="text-xs text-neutral-500">в наличии: 24 шт</div>
+            </div>
+            <button data-product="Michelin Pilot Sport 4" class="btn-buy inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700">В корзину</button>
+          </div>
+        </article>
+
+        <article class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
+          <div class="aspect-square rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <img src="https://images.unsplash.com/photo-1584587445304-1e138fe2b1a8?q=80&w=800&auto=format&fit=crop" alt="Pirelli Cinturato P7" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <h3 class="mt-3 font-semibold">Pirelli Cinturato P7</h3>
+          <p class="text-sm text-neutral-500">205/55 R16 • Летние</p>
+          <div class="mt-3 flex items-center justify-between">
+            <div>
+              <div class="text-lg font-bold">₾ 295</div>
+              <div class="text-xs text-neutral-500">в наличии: 60 шт</div>
+            </div>
+            <button data-product="Pirelli Cinturato P7" class="btn-buy inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700">В корзину</button>
+          </div>
+        </article>
+
+        <article class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
+          <div class="aspect-square rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <img src="https://images.unsplash.com/photo-1624673703670-88e6cbe0aa83?q=80&w=800&auto=format&fit=crop" alt="Nokian Hakkapeliitta R3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <h3 class="mt-3 font-semibold">Nokian Hakkapeliitta R3</h3>
+          <p class="text-sm text-neutral-500">225/45 R17 • Зимние</p>
+          <div class="mt-3 flex items-center justify-between">
+            <div>
+              <div class="text-lg font-bold">₾ 520</div>
+              <div class="text-xs text-neutral-500">в наличии: 18 шт</div>
+            </div>
+            <button data-product="Nokian Hakkapeliitta R3" class="btn-buy inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700">В корзину</button>
+          </div>
+        </article>
+
+        <article class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-4 bg-white dark:bg-neutral-900">
+          <div class="aspect-square rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <img src="https://images.unsplash.com/photo-1621041265211-e2ec1d1b2f8a?q=80&w=800&auto=format&fit=crop" alt="Bridgestone Blizzak" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"/>
+          </div>
+          <h3 class="mt-3 font-semibold">Bridgestone Blizzak</h3>
+          <p class="text-sm text-neutral-500">235/45 R18 • Зимние</p>
+          <div class="mt-3 flex items-center justify-between">
+            <div>
+              <div class="text-lg font-bold">₾ 495</div>
+              <div class="text-xs text-neutral-500">в наличии: 12 шт</div>
+            </div>
+            <button data-product="Bridgestone Blizzak" class="btn-buy inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700">В корзину</button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="py-14 sm:py-18">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="reveal">
+          <h2 class="text-2xl sm:text-3xl font-extrabold">Как это работает</h2>
+          <ol class="mt-4 space-y-3">
+            <li class="flex gap-3"><span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-accent-500 text-neutral-900 font-semibold">1</span><span><b>Выбор</b> — подбираете шины по размеру или авто.</span></li>
+            <li class="flex gap-3"><span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-accent-500 text-neutral-900 font-semibold">2</span><span><b>Оплата</b> — онлайн или при получении.</span></li>
+            <li class="flex gap-3"><span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-accent-500 text-neutral-900 font-semibold">3</span><span><b>Доставка</b> — привезём в удобное время.</span></li>
+            <li class="flex gap-3"><span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-accent-500 text-neutral-900 font-semibold">4</span><span><b>Установка</b> — шиномонтаж и балансировка.</span></li>
+          </ol>
+          <div class="mt-6 flex gap-3">
+            <a href="#search" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">Начать подбор</a>
+            <a href="#contact" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-neutral-200 dark:border-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-900">Связаться</a>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="rounded-3xl overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900">
+            <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1400&auto=format&fit=crop" alt="Шиномонтаж" class="w-full h-[360px] object-cover">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews -->
+  <section id="reviews" class="py-14 sm:py-18 bg-neutral-50 dark:bg-neutral-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-6">
+        <h2 class="text-2xl sm:text-3xl font-extrabold">Отзывы клиентов</h2>
+        <a href="#" class="text-sm hover:text-brand-600">Все отзывы</a>
+      </div>
+      <div class="grid md:grid-cols-3 gap-5">
+        <figure class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <blockquote class="text-sm text-neutral-700 dark:text-neutral-300">«Заказал вечером, к обеду следующего дня уже поставили. Цены честные, ребята в шиномонтаже аккуратные. Рекомендую!»</blockquote>
+          <figcaption class="mt-3 text-xs text-neutral-500">Николай • Mercedes C‑Class</figcaption>
+        </figure>
+        <figure class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <blockquote class="text-sm text-neutral-700 dark:text-neutral-300">«Подобрали размер по VIN, всё встало идеально. Приятно удивили скоростью доставки»</blockquote>
+          <figcaption class="mt-3 text-xs text-neutral-500">Елена • BMW 3</figcaption>
+        </figure>
+        <figure class="reveal rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <blockquote class="text-sm text-neutral-700 dark:text-neutral-300">«Беру тут уже второй сезон. Отличный сервис, чёткая коммуникация и гарантия»</blockquote>
+          <figcaption class="mt-3 text-xs text-neutral-500">Артур • Toyota Camry</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal rounded-3xl p-6 sm:p-10 bg-gradient-to-r from-brand-700 to-brand-600 text-white shadow-soft">
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <div>
+            <h3 class="text-2xl sm:text-3xl font-extrabold">Нужны шины сегодня?</h3>
+            <p class="mt-2 text-white/90">Позвоните — проверим наличие, подберём и оформим установку в ближайшем шиномонтаже.</p>
+          </div>
+          <div class="flex md:justify-end gap-3">
+            <a href="tel:+995555555555" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white text-neutral-900 hover:bg-neutral-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92V19a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2 4.18 2 2 0 0 1 4 2h2.09a1 1 0 0 1 1 .75 12.66 12.66 0 0 0 .7 2.11 1 1 0 0 1-.23 1.11L6.62 7.91a16 16 0 0 0 6 6l1.94-1a1 1 0 0 1 1.09.21 12.66 12.66 0 0 0 2.11.7 1 1 0 0 1 .75 1V19z"/></svg>
+              +995 555 55 55 55
+            </a>
+            <a href="#contact" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-neutral-900/20 border border-white/20 backdrop-blur">
+              Написать менеджеру
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="py-14 sm:py-18">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl font-extrabold mb-6">Частые вопросы</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <details class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <summary class="cursor-pointer font-semibold">Как выбрать размер шин?</summary>
+          <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Размер указан на боковине текущих шин и в мануале авто. Можно подобрать через форму «По авто» — мы подскажем рекомендуемые варианты.</p>
+        </details>
+        <details class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <summary class="cursor-pointer font-semibold">Доставляете ли вы по всей Грузии?</summary>
+          <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Да, доставляем по всей стране. Срок — от 24 до 72 часов в зависимости от региона.</p>
+        </details>
+        <details class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <summary class="cursor-pointer font-semibold">Есть ли гарантия?</summary>
+          <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">На заводской брак — 12 месяцев. При установке у нас сохраняется гарантия на работу.</p>
+        </details>
+        <details class="reveal group rounded-2xl border border-neutral-200 dark:border-neutral-800 p-5 bg-white dark:bg-neutral-900">
+          <summary class="cursor-pointer font-semibold">Можно ли оплатить при получении?</summary>
+          <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">Да, доступна оплата при получении, а также банковской картой онлайн.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-14 sm:py-18 bg-neutral-50 dark:bg-neutral-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="reveal">
+          <h2 class="text-2xl sm:text-3xl font-extrabold">Связаться с нами</h2>
+          <p class="mt-2 text-neutral-600 dark:text-neutral-300">Оставьте контакты — менеджер перезвонит в течение 10 минут.</p>
+          <form class="mt-5 grid sm:grid-cols-2 gap-3">
+            <input type="text" placeholder="Ваше имя" class="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <input type="tel" placeholder="Телефон" class="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <input type="text" placeholder="Размер, если знаете (напр. 225/45 R17)" class="sm:col-span-2 w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <button type="button" class="sm:col-span-2 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-brand-600 text-white hover:bg-brand-700 shadow-soft">Жду звонка</button>
+          </form>
+          <div class="mt-4 text-sm text-neutral-600 dark:text-neutral-400">Или позвоните: <a class="font-semibold hover:underline" href="tel:+995555555555">+995 555 55 55 55</a></div>
+        </div>
+        <div class="reveal">
+          <div class="rounded-3xl border border-neutral-200 dark:border-neutral-800 p-6 bg-white dark:bg-neutral-900">
+            <h3 class="font-semibold">Магазин и пункт самовывоза</h3>
+            <p class="mt-1 text-sm text-neutral-600 dark:text-neutral-300">Тбилиси, условный адрес 10. Ежедневно 10:00–20:00</p>
+            <div class="mt-4 aspect-video w-full rounded-2xl bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-500">Карта (вставьте виджет)</div>
+            <div class="mt-4 flex items-center gap-4 text-sm">
+              <span class="inline-flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>Есть парковка</span>
+              <span class="inline-flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><path d="M12 3v18"/></svg>Монтаж на месте</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 dark:border-neutral-800 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="inline-flex items-center gap-2 font-extrabold text-lg">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-600 text-white shadow-soft"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M20.5 12a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0Zm-5.7 0a2.8 2.8 0 1 1-5.6 0 2.8 2.8 0 0 1 5.6 0Z"/></svg></span>
+            <span>TirePro</span>
+          </div>
+          <p class="mt-3 text-sm text-neutral-600 dark:text-neutral-300">Официальный магазин шин. Сертифицированная продукция, гарантия качества и профессиональная установка.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold">Покупателям</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#search" class="hover:text-brand-600">Подбор шин</a></li>
+            <li><a href="#catalog" class="hover:text-brand-600">Каталог</a></li>
+            <li><a href="#faq" class="hover:text-brand-600">FAQ</a></li>
+            <li><a href="#contact" class="hover:text-brand-600">Контакты</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Информация</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#" class="hover:text-brand-600">Оплата и доставка</a></li>
+            <li><a href="#" class="hover:text-brand-600">Гарантия и возврат</a></li>
+            <li><a href="#" class="hover:text-brand-600">Политика конфиденциальности</a></li>
+            <li><a href="#" class="hover:text-brand-600">Пользовательское соглашение</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Мы принимаем</h4>
+          <div class="mt-3 flex items-center gap-3">
+            <span class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 text-sm">VISA</span>
+            <span class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 text-sm">Mastercard</span>
+            <span class="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-neutral-800 text-sm">Apple Pay</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-8 text-xs text-neutral-500">© <span id="year"></span> TirePro. Все права защищены.</div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-neutral-900 text-white shadow-lg opacity-0 pointer-events-none transition-opacity">Товар добавлен в корзину</div>
+
+  <script>
+    // Reveal on scroll
+    const ro = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target);} });
+    },{threshold:.08});
+    document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+    // Dark mode toggle
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const iconSun = document.getElementById('iconSun');
+    const iconMoon = document.getElementById('iconMoon');
+    function applyTheme(){
+      const dark = localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      root.classList.toggle('dark', dark);
+      iconSun.classList.toggle('hidden', !dark);
+      iconMoon.classList.toggle('hidden', dark);
+    }
+    applyTheme();
+    themeBtn.addEventListener('click', ()=>{
+      const isDark = root.classList.contains('dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      applyTheme();
+    });
+
+    // Tabs
+    const tabSize = document.getElementById('tabSize');
+    const tabCar = document.getElementById('tabCar');
+    const formSize = document.getElementById('formSize');
+    const formCar = document.getElementById('formCar');
+    tabSize.addEventListener('click', ()=>{
+      formSize.classList.remove('hidden');
+      formCar.classList.add('hidden');
+      tabSize.classList.add('bg-white','dark:bg-neutral-900','shadow');
+      tabCar.classList.remove('bg-white','dark:bg-neutral-900','shadow');
+    });
+    tabCar.addEventListener('click', ()=>{
+      formCar.classList.remove('hidden');
+      formSize.classList.add('hidden');
+      tabCar.classList.add('bg-white','dark:bg-neutral-900','shadow');
+      tabSize.classList.remove('bg-white','dark:bg-neutral-900','shadow');
+    });
+
+    // Fake search handlers
+    document.getElementById('btnFind').addEventListener('click', ()=>{
+      const w = document.getElementById('width').value;
+      const p = document.getElementById('profile').value;
+      const d = document.getElementById('diameter').value;
+      const s = document.getElementById('season').value;
+      const q = document.getElementById('qty').value;
+      const url = `/catalog?size=${w}/${p}${d}&season=${s}&qty=${q}`;
+      window.location.hash = url; // имитация перехода в каталог
+    });
+    document.getElementById('btnFindByCar').addEventListener('click', ()=>{
+      const b = document.getElementById('carBrand').value;
+      const m = document.getElementById('carModel').value;
+      const y = document.getElementById('carYear').value;
+      const url = `/catalog?brand=${encodeURIComponent(b)}&model=${encodeURIComponent(m)}&year=${y}`;
+      window.location.hash = url;
+    });
+
+    // Add to cart toast
+    const cartCount = document.getElementById('cartCount');
+    const toast = document.getElementById('toast');
+    let count = 0; 
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(()=>toast.classList.add('opacity-0'), 1800);
+    }
+    document.querySelectorAll('.btn-buy').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        count++; cartCount.textContent = count;
+        showToast('Товар добавлен в корзину');
+      });
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <!-- JSON-LD basic org schema -->
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"Store",
+    "name":"TirePro",
+    "image":"https://images.unsplash.com/photo-1603503361163-7696e049d58d?q=80&w=800&auto=format&fit=crop",
+    "telephone":"+995555555555",
+    "address":{"@type":"PostalAddress","addressLocality":"Tbilisi","addressCountry":"GE"},
+    "url":"https://example.com",
+    "sameAs":["https://facebook.com","https://instagram.com"]
+  }</script>
+</body>
+</html>
